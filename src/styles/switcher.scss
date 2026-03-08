@@ -1,0 +1,100 @@
+@use "fonts";
+@use "var" as *;
+@use "base/mixins.scss" as *;
+
+.en,
+.ua {
+    display: none;
+}
+
+body.lang-en .en {
+    display: inline;
+}
+
+body.lang-ua .ua {
+    display: inline;
+}
+
+.preloader.visible {
+    display: flex;
+}
+
+.preloader__spinner {
+    width: 50px;
+    height: 50px;
+    animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.lang-switcher {
+    cursor: pointer;
+    color: #504023;
+    flex-grow: 1;
+    font: {
+        size: 2.4rem;
+        weight: 400;
+        family: $serif-sfProDisplay-bold-font;
+    }
+
+    &-block {
+        width: fit-content;
+        margin: {
+            left: auto;
+            right: 1.6rem;
+        }
+        border: 1px solid #504023;
+        border-radius: 12px;
+        padding: {
+            top: 1rem;
+            bottom: 1rem;
+            left: 1.6rem;
+            right: 1.6rem;
+        }
+    }
+}
+.lang-switcher {
+    user-select: none;
+}
+
+.lang-switcher-block {
+    display: flex;
+    gap: 0.4rem; // відстань між "таблетками"
+    border: 1px solid #504023;
+    border-radius: 1.6rem;
+    padding: 0.4rem; // внутрішній відступ
+    background: transparent;
+}
+
+.lang-option {
+    cursor: pointer;
+    padding: 0.6rem 1.2rem;
+    border-radius: 1.2rem; // округлі краї
+    font: {
+        size: 2.4rem;
+        weight: 400;
+        family: $serif-sfProDisplay-bold-font;
+    }
+    color: #504023;
+    transition: all 0.2s ease;
+
+    // неактивний стан
+    &:not(.curr) {
+        background: transparent;
+        color: #504023;
+    }
+
+    &.curr {
+        background: #504023;
+        color: white;
+        pointer-events: none; // щоб не клікати на себе
+    }
+
+    &:not(.curr):hover {
+        background: rgba(#504023, 0.15);
+    }
+}

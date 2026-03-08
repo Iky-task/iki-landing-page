@@ -1,0 +1,13 @@
+@use "./base/mixins" as *;
+
+@include fontFace("../assets/fonts/roboto-regular", "Roboto Regular");
+
+@include fontFace("../assets/fonts/balsamiqsans-regular", "Balsamiq Regular");
+
+@include fontFace("../assets/fonts/SFProDisplay-regular", "SFProDisplay Regular");
+
+@include fontFace("../assets/fonts/SFProDisplay-bold", "SFProDisplay Bold");
+
+@include fontFace("../assets/fonts/Inter-regular", "Inter Regular");
+
+@include fontFace("../assets/fonts/Oswald-Bold", "Oswald Bold");

@@ -1,0 +1,119 @@
+*,
+*:before,
+*:after {
+    box-sizing: border-box;
+}
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+@media print {
+    * {
+        background: none !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    img {
+        filter: Gray();
+        filter: grayscale(100%);
+    }
+
+    a {
+        text-decoration: underline;
+        page-break-inside: avoid;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    a:link,
+    a:visited {
+        color: #781351;
+    }
+
+    a[href="#"],
+    a[href="javascript:"] {
+        content: "";
+    }
+
+    body {
+        font-family:
+            Georgia,
+            ‘Times New Roman’,
+            serif;
+    }
+
+    .entry iframe,
+    ins {
+        display: none;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        line-height: 0pt !important;
+        white-space: nowrap;
+    }
+
+    @page :left {
+        margin: 1cm;
+    }
+
+    @page :right {
+        margin: 1cm;
+    }
+
+    .embed-youtube,
+    .embed-responsive {
+        position: absolute;
+        height: 0;
+        overflow: hidden;
+    }
+
+    blockquote,
+    table,
+    pre,
+    ul,
+    ol,
+    dl,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    img {
+        page-break-inside: avoid;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    img {
+        page-break-after: avoid;
+    }
+}
+
+$font-fallback: Helvetica, Tahoma, "Times New Roman", sans-serif;
+
+$base-font-size: 1rem;
+$base-line-height: 1.6;
+
+$font-xs-small: 14px;
+//x
+$font-sm-small: 20px;
+//x
+$font-md-small: 30px;
+//x
+$font-lg-small: 40px;
+
+// Sizing of container
+$container-width: 1024px;
+
+$sprite-path: "path!!!";

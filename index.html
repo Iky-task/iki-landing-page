@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport" />
+        <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+        <title>Iky Task</title>
+        <meta name="description" content="Add tasks in seconds with an intuitive, clutter-free flow. No friction — just focus on what matters." />
+        <link rel="icon" type="image/png" href="src/assets/img/favicon.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Iky Task" key="title" />
+        <meta property="og:description" content="Add tasks in seconds with an intuitive, clutter-free flow. No friction — just focus on what matters." />
+        <meta property="og:image" content="src/assets/img/preview-image.jpg" />
+        <meta property="twitter:description" content="Add tasks in seconds with an intuitive, clutter-free flow. No friction — just focus on what matters." />
+        <meta property="og:url" content="https://www.ikytask.app/" />
+        <link rel="canonical" href="https://www.ikytask.app/" />
+        <style>
+            body {
+                margin: 0;
+                visibility: hidden;
+                background: #fff;
+            }
+
+            body.preloader-active {
+                overflow: hidden;
+                height: 100vh;
+                position: fixed;
+                width: 100%;
+            }
+
+            .preloader {
+                position: fixed;
+                inset: 0;
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                visibility: hidden;
+                transition:
+                    opacity 0.3s ease,
+                    visibility 0.3s ease;
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                background: rgba(255, 255, 255, 0.5);
+            }
+            .preloader.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+
+            .preloader__spinner {
+                width: 50px;
+                height: 50px;
+                animation: spin 5s linear infinite;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            body.loaded {
+                visibility: visible;
+            }
+
+            body:not(.loaded) .page-content {
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="preloader">
+            <img class="preloader__spinner" alt="preloader" src="src/assets/img/spinner.svg" />
+        </div>
+        <div class="page-content">
+            <header class="header">
+                <div class="container">
+                    <div class="header__block">
+                        <div class="header__block-logo">
+                            <img class="header__logo" src="src/assets/img/logo.svg" alt="head__logo" />
+                            <div>Iky Task</div>
+                        </div>
+                        <div class="lang-switcher">
+                            <div class="lang-switcher-block">
+                                <div class="lang-option curr" data-lang="en">En</div>
+                                <div class="lang-option" data-lang="ua">Uk</div>
+                            </div>
+                        </div>
+                        <button type="button" class="header__button">
+                            <svg class="header__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.29 15.71C11.3851 15.801 11.4972 15.8724 11.62 15.92C11.8635 16.02 12.1365 16.02 12.38 15.92C12.5028 15.8724 12.6149 15.801 12.71 15.71L15.71 12.71C15.8983 12.5217 16.0041 12.2663 16.0041 12C16.0041 11.7337 15.8983 11.4783 15.71 11.29C15.5217 11.1017 15.2663 10.9959 15 10.9959C14.7337 10.9959 14.4783 11.1017 14.29 11.29L13 12.59V9C13 8.73479 12.8946 8.48043 12.7071 8.2929C12.5196 8.10536 12.2652 8 12 8C11.7348 8 11.4804 8.10536 11.2929 8.2929C11.1054 8.48043 11 8.73479 11 9V12.59L9.71 11.29C9.61704 11.1963 9.50644 11.1219 9.38458 11.0711C9.26272 11.0203 9.13201 10.9942 9 10.9942C8.86799 10.9942 8.73728 11.0203 8.61542 11.0711C8.49356 11.1219 8.38296 11.1963 8.29 11.29C8.19627 11.383 8.12188 11.4936 8.07111 11.6154C8.02034 11.7373 7.9942 11.868 7.9942 12C7.9942 12.132 8.02034 12.2627 8.07111 12.3846C8.12188 12.5064 8.19627 12.617 8.29 12.71L11.29 15.71ZM12 22C13.9778 22 15.9112 21.4135 17.5557 20.3147C19.2002 19.2159 20.4819 17.6541 21.2388 15.8268C21.9957 13.9996 22.1937 11.9889 21.8079 10.0491C21.422 8.10929 20.4696 6.32746 19.0711 4.92894C17.6725 3.53041 15.8907 2.578 13.9509 2.19215C12.0111 1.8063 10.0004 2.00433 8.17317 2.76121C6.3459 3.51809 4.78412 4.79981 3.6853 6.4443C2.58649 8.08879 2 10.0222 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7363 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22ZM12 4C13.5823 4 15.129 4.4692 16.4446 5.34825C17.7602 6.2273 18.7855 7.47673 19.391 8.93854C19.9965 10.4003 20.155 12.0089 19.8463 13.5607C19.5376 15.1126 18.7757 16.538 17.6569 17.6569C16.538 18.7757 15.1126 19.5376 13.5607 19.8463C12.0089 20.155 10.4003 19.9965 8.93853 19.391C7.47672 18.7855 6.22729 17.7602 5.34824 16.4446C4.46919 15.129 4 13.5823 4 12C4 9.87827 4.84285 7.84344 6.34315 6.34315C7.84344 4.84286 9.87827 4 12 4Z"
+                                    fill="#504023"
+                                />
+                            </svg>
+                            <div>
+                                <span class="en">Join waitlist</span>
+                                <span class="ua">Хочу доступ</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <main class="main">
+                <div class="container">
+                    <div class="main__top-block">
+                        <h1 class="main__top-block-title">
+                            <span class="en">Start<br />finding joy<br />in every task!</span>
+                            <span class="ua">Коли справи<br />приносять<br />радість</span>
+                        </h1>
+                        <button type="button" class="main__button">
+                            <svg class="main__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M11.29 15.71C11.3851 15.801 11.4972 15.8724 11.62 15.92C11.8635 16.02 12.1365 16.02 12.38 15.92C12.5028 15.8724 12.6149 15.801 12.71 15.71L15.71 12.71C15.8983 12.5217 16.0041 12.2663 16.0041 12C16.0041 11.7337 15.8983 11.4783 15.71 11.29C15.5217 11.1017 15.2663 10.9959 15 10.9959C14.7337 10.9959 14.4783 11.1017 14.29 11.29L13 12.59V9C13 8.73479 12.8946 8.48043 12.7071 8.2929C12.5196 8.10536 12.2652 8 12 8C11.7348 8 11.4804 8.10536 11.2929 8.2929C11.1054 8.48043 11 8.73479 11 9V12.59L9.71 11.29C9.61704 11.1963 9.50644 11.1219 9.38458 11.0711C9.26272 11.0203 9.13201 10.9942 9 10.9942C8.86799 10.9942 8.73728 11.0203 8.61542 11.0711C8.49356 11.1219 8.38296 11.1963 8.29 11.29C8.19627 11.383 8.12188 11.4936 8.07111 11.6154C8.02034 11.7373 7.9942 11.868 7.9942 12C7.9942 12.132 8.02034 12.2627 8.07111 12.3846C8.12188 12.5064 8.19627 12.617 8.29 12.71L11.29 15.71ZM12 22C13.9778 22 15.9112 21.4135 17.5557 20.3147C19.2002 19.2159 20.4819 17.6541 21.2388 15.8268C21.9957 13.9996 22.1937 11.9889 21.8079 10.0491C21.422 8.10929 20.4696 6.32746 19.0711 4.92894C17.6725 3.53041 15.8907 2.578 13.9509 2.19215C12.0111 1.8063 10.0004 2.00433 8.17317 2.76121C6.3459 3.51809 4.78412 4.79981 3.6853 6.4443C2.58649 8.08879 2 10.0222 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7363 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22ZM12 4C13.5823 4 15.129 4.4692 16.4446 5.34825C17.7602 6.2273 18.7855 7.47673 19.391 8.93854C19.9965 10.4003 20.155 12.0089 19.8463 13.5607C19.5376 15.1126 18.7757 16.538 17.6569 17.6569C16.538 18.7757 15.1126 19.5376 13.5607 19.8463C12.0089 20.155 10.4003 19.9965 8.93853 19.391C7.47672 18.7855 6.22729 17.7602 5.34824 16.4446C4.46919 15.129 4 13.5823 4 12C4 9.87827 4.84285 7.84344 6.34315 6.34315C7.84344 4.84286 9.87827 4 12 4Z"
+                                    fill="white"
+                                />
+                            </svg>
+                            <div>
+                                <span class="en">Join waitlist</span>
+                                <span class="ua">Хочу доступ</span>
+                            </div>
+                        </button>
+                        <img class="main__top-block-task-first" src="src/assets/img/task-first.svg" alt="task" />
+                        <img class="main__top-block-img" src="src/assets/img/main-img.svg" alt="main-img" />
+                        <img class="main__top-block-task-second" src="src/assets/img/task-second.svg" alt="task" />
+                        <img class="main__top-block-task-third" src="src/assets/img/task-third.svg" alt="task" />
+                        <img class="main__top-block-underlay-img" src="src/assets/img/form-underlay.svg" />
+                    </div>
+                    <div class="main__middle-block">
+                        <div class="main__middle-block-item">
+                            <div class="main__middle-block-item-wrapper">
+                                <h2 class="main__middle-block-title">
+                                    <span class="en">Satisfaction level</span>
+                                    <span class="ua">Шкала задоволення</span>
+                                </h2>
+                                <p class="main__middle-block-text">
+                                    <span class="en"
+                                        >Your digital buddy gets happier with every task you complete. Stay motivated as the meter fills and your progress comes
+                                        to life!</span
+                                    >
+                                    <span class="ua"
+                                        >Кожне виконання робить твого помічника щасливішим. Слідкуй за прогресом, радій результату і залишайся вмотивованим
+                                        щодня.</span
+                                    >
+                                </p>
+                            </div>
+                            <img class="main__middle-block-img" src="src/assets/img/middle-img-first.svg" alt="middle-img" />
+                            <img class="main__middle-block-underlay-img" src="src/assets/img/block-underlay.svg" />
+                        </div>
+                        <div class="main__middle-block-item">
+                            <div class="main__middle-block-item-wrapper">
+                                <h2 class="main__middle-block-title">
+                                    <span class="en">Simply task creation</span>
+                                    <span class="ua">Просте додавання завдань</span>
+                                </h2>
+                                <p class="main__middle-block-text">
+                                    <span class="en">Add tasks in seconds with an intuitive, clutter-free flow. No friction — just focus on what matters.</span>
+                                    <span class="ua"
+                                        >Додавай завдання за кілька секунд. Мінімум кліків, максимум фокусу - нічого не відволікає від важливого.</span
+                                    >
+                                </p>
+                            </div>
+                            <img class="main__middle-block-img mobile-view" src="src/assets/img/middle-img-second-mob.png" alt="middle-img" />
+                            <img class="main__middle-block-img desktop-view" src="src/assets/img/middle-img-second-desktop.svg" alt="middle-img" />
+                            <img class="main__middle-block-underlay-img" src="src/assets/img/block-underlay.svg" />
+                        </div>
+                        <div class="main__middle-block-item">
+                            <div class="main__middle-block-item-wrapper">
+                                <h2 class="main__middle-block-title">
+                                    <span class="en">Big events tracking</span>
+                                    <span class="ua">Важливі події </span>
+                                </h2>
+                                <p class="main__middle-block-text">
+                                    <span class="en"
+                                        >Plan major moments with ease. Break big goals into clear, actionable steps — and move forward with confidence.</span
+                                    >
+                                    <span class="ua">Плануй великі цілі без стресу. Розбивай їх на зрозумілі кроки і рухайся вперед впевнено та системно.</span>
+                                </p>
+                            </div>
+                            <img class="main__middle-block-img" src="src/assets/img/middle-img-third.svg" alt="middle-img" />
+                            <img class="main__middle-block-underlay-img" src="src/assets/img/block-underlay.svg" />
+                        </div>
+                        <div class="main__middle-block-item">
+                            <div class="main__middle-block-item-wrapper">
+                                <h2 class="main__middle-block-title">
+                                    <span class="en">Customisation</span>
+                                    <span class="ua">Кастомізація категорій</span>
+                                </h2>
+                                <p class="main__middle-block-text">
+                                    <span class="en"
+                                        >Create custom task categories with unique icons, colors, and names. Full personalization for full control over your
+                                        tasks.</span
+                                    >
+                                    <span class="ua"
+                                        >Налаштовуй завдання під себе - обирай кольори, іконки та назви, щоб усе виглядало і працювало так, як зручно саме
+                                        тобі.</span
+                                    >
+                                </p>
+                            </div>
+                            <img class="main__middle-block-img mobile-view" src="src/assets/img/middle-img-fourth-mob.png" alt="middle-img" />
+                            <img class="main__middle-block-img desktop-view" src="src/assets/img/middle-img-fourth-desktop.svg" alt="middle-img" />
+                            <img class="main__middle-block-underlay-img" src="src/assets/img/block-underlay.svg" />
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <h2 class="form-block-title">
+                            <span class="en">Join waitlist</span>
+                            <span class="ua">Хочу доступ</span>
+                        </h2>
+                        <p class="form-block-text">
+                            <span class="en">If you’d like to stay in the know, leave your email, and we’ll keep you updated!</span>
+                            <span class="ua">Залишити email та отримати доступ одним із перших</span>
+                        </p>
+                        <form id="emailForm" class="subscribe-form">
+                            <div class="input-group">
+                                <input
+                                    class="input-group-text"
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Enter your email"
+                                    data-en="Enter your email"
+                                    data-ua="Введіть свій email"
+                                    required
+                                    autocomplete="email"
+                                />
+                                <svg class="input-group-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22" fill="none">
+                                    <path
+                                        d="M17.4167 3.66699H4.58337C3.85403 3.66699 3.15456 3.95672 2.63883 4.47245C2.12311 4.98817 1.83337 5.68765 1.83337 6.41699V15.5837C1.83337 16.313 2.12311 17.0125 2.63883 17.5282C3.15456 18.0439 3.85403 18.3337 4.58337 18.3337H17.4167C18.1461 18.3337 18.8455 18.0439 19.3613 17.5282C19.877 17.0125 20.1667 16.313 20.1667 15.5837V6.41699C20.1667 5.68765 19.877 4.98817 19.3613 4.47245C18.8455 3.95672 18.1461 3.66699 17.4167 3.66699ZM17.0409 5.50033L11.6509 10.8903C11.5657 10.9762 11.4643 11.0444 11.3526 11.091C11.2409 11.1375 11.1211 11.1615 11 11.1615C10.879 11.1615 10.7592 11.1375 10.6475 11.091C10.5358 11.0444 10.4344 10.9762 10.3492 10.8903L4.95921 5.50033H17.0409ZM18.3334 15.5837C18.3334 15.8268 18.2368 16.0599 18.0649 16.2318C17.893 16.4037 17.6598 16.5003 17.4167 16.5003H4.58337C4.34026 16.5003 4.1071 16.4037 3.93519 16.2318C3.76328 16.0599 3.66671 15.8268 3.66671 15.5837V6.79283L9.05671 12.1828C9.57233 12.6978 10.2713 12.9871 11 12.9871C11.7288 12.9871 12.4277 12.6978 12.9434 12.1828L18.3334 6.79283V15.5837Z"
+                                        fill="#9FB3EB"
+                                    />
+                                </svg>
+                            </div>
+                            <button id="form-button" class="form-block-button" type="submit">
+                                <span class="en">Send</span>
+                                <span class="ua">Відправити</span>
+                            </button>
+                        </form>
+                        <p class="form-block-text">
+                            <span class="en">Will be available on</span>
+                            <span class="ua">Незабаром на платформах</span>
+                        </p>
+                        <div class="platform-block">
+                            <img class="platform-block-item" src="src/assets/img/apple-logo.svg" />
+                            <img class="platform-block-item" src="src/assets/img/android-logo.svg" />
+                        </div>
+                        <img class="form-block-underlay-img" src="src/assets/img/form-underlay.svg" />
+                    </div>
+                </div>
+            </main>
+            <footer class="footer">
+                <div class="container">
+                    <p class="footer-copy">Copyright <span id="year"></span> © ikytask</p>
+                </div>
+            </footer>
+        </div>
+        <script type="module" src="src/scripts/index.js"></script>
+    </body>
+</html>

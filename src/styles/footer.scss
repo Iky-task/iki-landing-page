@@ -1,0 +1,20 @@
+@use "fonts";
+@use "var" as *;
+@use "base/mixins.scss" as *;
+
+.footer {
+    text-align: center;
+    color: #bbb;
+    font-family: $serif-sfProDisplay-regular-font;
+
+    &-copy {
+        padding: {
+            top: 24px;
+            bottom: 16px;
+        }
+        font: {
+            size: 18px;
+            weight: 600;
+        }
+    }
+}
