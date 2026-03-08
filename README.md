@@ -11,3 +11,9 @@
 
    ```bash
    npm run dev
+
+2. Build app
+
+   ```bash
+   npm run build
+
