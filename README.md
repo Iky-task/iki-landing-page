@@ -10,4 +10,4 @@
 2. Start the app
 
    ```bash
-   npx run dev
+   npm run dev
