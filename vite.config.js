@@ -47,6 +47,19 @@ export default defineConfig({
                 handler: html => html.replace(/ crossorigin/gi, ''),
             },
         },
+        {
+            name: 'remove-css-from-auth-callback',
+            transformIndexHtml: {
+                order: 'post',
+                handler: (html, ctx) => {
+                    // Remove style.css link from auth-callback.html
+                    if (ctx.filename && ctx.filename.includes('auth-callback')) {
+                        return html.replace(/<link[^>]*href="[^"]*style\.css"[^>]*>/gi, '');
+                    }
+                    return html;
+                },
+            },
+        },
         viteImagemin({
             plugins: {
                 gif: imageminGifsicle({ interlaced: true }),

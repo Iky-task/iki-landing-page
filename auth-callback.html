@@ -39,25 +39,29 @@
             }
 
             .container {
-                background: white;
-                border-radius: 24px;
-                padding: 48px 40px;
-                text-align: center;
+                background: white !important;
+                border-radius: 24px !important;
+                padding: 48px 40px 32px 40px !important;
+                text-align: center !important;
                 max-width: 420px !important;
-                width: 100%;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-                margin: 0 auto;
+                width: 100% !important;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+                margin: 0 auto !important;
+                overflow: visible !important;
+                position: relative !important;
+                box-sizing: border-box !important;
             }
 
             .icon {
-                width: 80px;
-                height: 80px;
-                margin: 0 auto 24px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 40px;
+                width: 80px !important;
+                height: 80px !important;
+                margin: 0 auto 24px auto !important;
+                border-radius: 50% !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 40px !important;
+                position: relative !important;
             }
 
             .icon.success {
@@ -94,10 +98,10 @@
             }
 
             p {
-                color: #666;
-                margin-bottom: 32px;
-                line-height: 1.6;
-                font-size: 16px;
+                color: #666 !important;
+                margin-bottom: 24px !important;
+                line-height: 1.6 !important;
+                font-size: 16px !important;
             }
 
             .error-state p {
@@ -105,18 +109,20 @@
             }
 
             .btn {
-                display: inline-block;
-                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
-                color: white;
-                padding: 16px 48px;
-                border-radius: 12px;
-                text-decoration: none;
-                font-weight: 600;
-                font-size: 16px;
+                display: inline-block !important;
+                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%) !important;
+                color: white !important;
+                padding: 16px 48px !important;
+                border-radius: 12px !important;
+                text-decoration: none !important;
+                font-weight: 600 !important;
+                font-size: 16px !important;
                 transition: transform 0.2s, box-shadow 0.2s;
-                border: none;
+                border: none !important;
                 cursor: pointer;
                 box-shadow: 0 4px 15px rgba(112, 150, 255, 0.4);
+                position: relative !important;
+                margin: 0 auto;
             }
 
             .btn:hover {
@@ -147,7 +153,9 @@
             .logo {
                 width: 60px;
                 height: 60px;
-                margin-bottom: 16px;
+                margin: 0 auto 16px auto;
+                display: block;
+                position: relative;
             }
 
             .app-store-badges {
