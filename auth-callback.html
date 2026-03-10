@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport" />
+        <meta content="ie=edge" http-equiv="X-UA-Compatible" />
+        <title>Iky Task - Email Verification</title>
+        <meta name="description" content="Email verification for Iky Task" />
+        <link rel="icon" type="image/png" href="src/assets/img/favicon.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Iky Task - Email Verification" />
+        <meta property="og:url" content="https://www.ikytask.app/auth-callback" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro', 'Segoe UI', Roboto, sans-serif;
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            }
+
+            body.success-state {
+                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
+            }
+
+            body.error-state {
+                background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            }
+
+            body.loading-state {
+                background: linear-gradient(135deg, #E8E8E8 0%, #F5F5F5 100%);
+            }
+
+            .container {
+                background: white;
+                border-radius: 24px;
+                padding: 48px 40px;
+                text-align: center;
+                max-width: 420px;
+                width: 100%;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            }
+
+            .icon {
+                width: 80px;
+                height: 80px;
+                margin: 0 auto 24px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 40px;
+            }
+
+            .icon.success {
+                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
+            }
+
+            .icon.error {
+                background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            }
+
+            .icon.loading {
+                background: #F0F0F0;
+            }
+
+            .spinner {
+                width: 32px;
+                height: 32px;
+                border: 3px solid #E0E0E0;
+                border-top-color: #7096FF;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                to { transform: rotate(360deg); }
+            }
+
+            h1 {
+                color: #2C2C2C;
+                margin-bottom: 12px;
+                font-size: 24px;
+                font-weight: 700;
+                line-height: 1.3;
+            }
+
+            p {
+                color: #666;
+                margin-bottom: 32px;
+                line-height: 1.6;
+                font-size: 16px;
+            }
+
+            .error-state p {
+                color: #CC4444;
+            }
+
+            .btn {
+                display: inline-block;
+                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
+                color: white;
+                padding: 16px 48px;
+                border-radius: 12px;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 16px;
+                transition: transform 0.2s, box-shadow 0.2s;
+                border: none;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(112, 150, 255, 0.4);
+            }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(112, 150, 255, 0.5);
+            }
+
+            .btn:active {
+                transform: translateY(0);
+            }
+
+            .btn-secondary {
+                background: #F5F5F5;
+                color: #666;
+                box-shadow: none;
+                margin-top: 12px;
+            }
+
+            .btn-secondary:hover {
+                background: #EBEBEB;
+                box-shadow: none;
+            }
+
+            .hidden {
+                display: none !important;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 16px;
+            }
+
+            .app-store-badges {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                margin-top: 24px;
+            }
+
+            .app-store-badges img {
+                height: 40px;
+                opacity: 0.6;
+            }
+
+            .note {
+                font-size: 14px;
+                color: #999;
+                margin-top: 24px;
+            }
+        </style>
+    </head>
+    <body class="loading-state">
+        <!-- Loading State -->
+        <div id="loading" class="container">
+            <div class="icon loading">
+                <div class="spinner"></div>
+            </div>
+            <h1>
+                <span class="en">Verifying...</span>
+                <span class="ua">Перевірка...</span>
+            </h1>
+            <p>
+                <span class="en">Please wait while we confirm your email.</span>
+                <span class="ua">Зачекайте, підтверджуємо ваш email.</span>
+            </p>
+        </div>
+
+        <!-- Success State -->
+        <div id="success" class="container hidden">
+            <img class="logo" src="src/assets/img/logo.svg" alt="Iky Task" />
+            <div class="icon success">
+                <span style="filter: grayscale(1) brightness(10);">&#10003;</span>
+            </div>
+            <h1>
+                <span class="en">Email Confirmed!</span>
+                <span class="ua">Email підтверджено!</span>
+            </h1>
+            <p>
+                <span class="en">Your account is now active. Open the app to start managing your tasks.</span>
+                <span class="ua">Ваш акаунт активовано. Відкрийте додаток, щоб почати керувати своїми завданнями.</span>
+            </p>
+            <a id="openAppBtn" href="#" class="btn">
+                <span class="en">Open Iky App</span>
+                <span class="ua">Відкрити Iky</span>
+            </a>
+        </div>
+
+        <!-- Error State -->
+        <div id="error" class="container hidden">
+            <div class="icon error">
+                <span style="filter: grayscale(1) brightness(10);">&#10005;</span>
+            </div>
+            <h1>
+                <span class="en">Verification Failed</span>
+                <span class="ua">Помилка підтвердження</span>
+            </h1>
+            <p id="errorMessage">
+                <span class="en">The link is invalid or has expired.</span>
+                <span class="ua">Посилання недійсне або застаріле.</span>
+            </p>
+            <a href="/" class="btn">
+                <span class="en">Go to Homepage</span>
+                <span class="ua">На головну</span>
+            </a>
+        </div>
+
+        <script>
+            // Language detection
+            const userLang = navigator.language || navigator.userLanguage;
+            const isUkrainian = userLang.startsWith('uk') || userLang.startsWith('ru');
+
+            document.querySelectorAll('.en').forEach(el => {
+                el.style.display = isUkrainian ? 'none' : 'inline';
+            });
+            document.querySelectorAll('.ua').forEach(el => {
+                el.style.display = isUkrainian ? 'inline' : 'none';
+            });
+
+            // Parse hash parameters
+            const hash = window.location.hash.substring(1);
+            const params = new URLSearchParams(hash);
+
+            const accessToken = params.get('access_token');
+            const refreshToken = params.get('refresh_token');
+            const error = params.get('error');
+            const errorCode = params.get('error_code');
+            const errorDescription = params.get('error_description');
+
+            const successEl = document.getElementById('success');
+            const errorEl = document.getElementById('error');
+            const loadingEl = document.getElementById('loading');
+            const openAppBtn = document.getElementById('openAppBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const body = document.body;
+
+            // Small delay to show loading state
+            setTimeout(() => {
+                if (error) {
+                    // Show error
+                    loadingEl.classList.add('hidden');
+                    errorEl.classList.remove('hidden');
+                    body.classList.remove('loading-state');
+                    body.classList.add('error-state');
+
+                    // Set error message
+                    const decodedError = decodeURIComponent(errorDescription || '');
+                    if (decodedError) {
+                        const enMsg = errorMessage.querySelector('.en');
+                        const uaMsg = errorMessage.querySelector('.ua');
+
+                        // Map common errors to Ukrainian
+                        const errorMap = {
+                            'Email link is invalid or has expired': 'Посилання недійсне або застаріле',
+                            'otp_expired': 'Термін дії посилання закінчився',
+                            'access_denied': 'Доступ заборонено'
+                        };
+
+                        if (enMsg) enMsg.textContent = decodedError;
+                        if (uaMsg) uaMsg.textContent = errorMap[decodedError] || errorMap[errorCode] || 'Посилання недійсне або застаріле';
+                    }
+                } else if (accessToken) {
+                    // Success - show confirmation and deep link button
+                    loadingEl.classList.add('hidden');
+                    successEl.classList.remove('hidden');
+                    body.classList.remove('loading-state');
+                    body.classList.add('success-state');
+
+                    // Build deep link URL with tokens
+                    const deepLinkParams = new URLSearchParams();
+                    deepLinkParams.set('access_token', accessToken);
+                    if (refreshToken) {
+                        deepLinkParams.set('refresh_token', refreshToken);
+                    }
+
+                    const deepLink = `iky://auth/callback?${deepLinkParams.toString()}`;
+                    openAppBtn.href = deepLink;
+
+                    // No auto-redirect - user clicks the button manually
+                } else {
+                    // No token, no error - redirect to home
+                    window.location.href = '/';
+                }
+            }, 500);
+        </script>
+    </body>
+</html>

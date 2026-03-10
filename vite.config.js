@@ -19,6 +19,7 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 main: path.resolve(__dirname, 'index.html'),
+                'auth-callback': path.resolve(__dirname, 'auth-callback.html'),
             },
             output: {
                 entryFileNames: 'main.js',
