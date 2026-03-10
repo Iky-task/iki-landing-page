@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <script>
+            // Redirect to auth-callback if there's an access_token or error in hash
+            (function() {
+                var hash = window.location.hash;
+                if (hash && (hash.includes('access_token=') || hash.includes('error='))) {
+                    window.location.replace('/auth-callback.html' + hash);
+                }
+            })();
+        </script>
         <meta charset="UTF-8" />
         <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" name="viewport" />
         <meta content="ie=edge" http-equiv="X-UA-Compatible" />
