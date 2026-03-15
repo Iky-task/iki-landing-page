@@ -307,6 +307,20 @@
                     const deepLink = `iky://auth/callback?${deepLinkParams.toString()}`;
                     openAppBtn.href = deepLink;
 
+                    // Update text for password recovery flow
+                    if (type === 'recovery') {
+                        const successTitle = successEl.querySelector('h1');
+                        const successDesc = successEl.querySelector('p');
+                        if (successTitle) {
+                            successTitle.querySelector('.en').textContent = 'Reset Your Password';
+                            successTitle.querySelector('.ua').textContent = 'Скидання пароля';
+                        }
+                        if (successDesc) {
+                            successDesc.querySelector('.en').textContent = 'Tap the button below to open the app and set a new password.';
+                            successDesc.querySelector('.ua').textContent = 'Натисніть кнопку нижче, щоб відкрити додаток і встановити новий пароль.';
+                        }
+                    }
+
                     // No auto-redirect - user clicks the button manually
                 } else {
                     // No token, no error - redirect to home
