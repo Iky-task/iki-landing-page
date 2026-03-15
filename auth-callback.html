@@ -299,6 +299,10 @@
                     if (refreshToken) {
                         deepLinkParams.set('refresh_token', refreshToken);
                     }
+                    const type = params.get('type');
+                    if (type) {
+                        deepLinkParams.set('type', type);
+                    }
 
                     const deepLink = `iky://auth/callback?${deepLinkParams.toString()}`;
                     openAppBtn.href = deepLink;
