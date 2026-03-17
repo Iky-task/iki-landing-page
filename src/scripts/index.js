@@ -4,35 +4,6 @@ window.addEventListener("load", () => {
     const preloader = document.querySelector(".preloader");
     const pageContent = document.querySelector(".page-content");
     const body = document.body;
-    const langOptions = document.querySelectorAll(".lang-option");
-
-    function getCurrentLanguage() {
-        return body.classList.contains("lang-ua") ? "ua" : "en";
-    }
-
-    function getTranslation(key) {
-        const translations = {
-            success_message: {
-                en: "All done!",
-                ua: "Готово!",
-            },
-            error_message: {
-                en: "Error. Try again",
-                ua: "Помилка. Спробуйте ще раз",
-            },
-            submit_button: {
-                en: "Sign up for updates",
-                ua: "Отримати оновлення",
-            },
-            sending_message: {
-                en: "Sending...",
-                ua: "Відправляється...",
-            },
-        };
-
-        const lang = getCurrentLanguage();
-        return translations[key]?.[lang] || translations[key]?.["en"] || "";
-    }
 
     function showPreloader() {
         if (preloader && pageContent && body) {
@@ -68,7 +39,7 @@ window.addEventListener("load", () => {
 
             form.classList.add("submitting");
             submitBtn.disabled = true;
-            submitBtn.innerHTML = `<img src="src/assets/img/spinner.svg" alt="${getTranslation("sending_message")}" class="form-block-spinner">`;
+            submitBtn.innerHTML = `<img src="src/assets/img/spinner.svg" alt="Sending..." class="form-block-spinner">`;
 
             try {
                 await fetch(SCRIPT_URL, {
@@ -79,8 +50,7 @@ window.addEventListener("load", () => {
                 });
 
                 submitBtn.disabled = false;
-                const successMessage = getTranslation("success_message");
-                submitBtn.innerHTML = `${successMessage} <img src="src/assets/img/success.svg" alt="Success" class="form-block-success">`;
+                submitBtn.innerHTML = `All done! <img src="src/assets/img/success.svg" alt="Success" class="form-block-success">`;
 
                 form.reset();
                 form.classList.add("submitted");
@@ -92,12 +62,12 @@ window.addEventListener("load", () => {
                 setTimeout(() => emailInput.blur(), 50);
             } catch (err) {
                 console.error("Submit error:", err);
-                submitBtn.innerHTML = getTranslation("error_message");
+                submitBtn.innerHTML = "Error. Try again";
                 form.classList.remove("submitting", "submitted");
                 emailInput.style.caretColor = "";
 
                 setTimeout(() => {
-                    submitBtn.innerHTML = getTranslation("submit_button");
+                    submitBtn.innerHTML = "Sign up for updates";
                     submitBtn.disabled = false;
                 }, 3000);
             }
@@ -119,7 +89,7 @@ window.addEventListener("load", () => {
         emailInput.addEventListener("input", () => {
             if (form.classList.contains("submitted")) {
                 form.classList.remove("submitted");
-                submitBtn.innerHTML = getTranslation("submit_button");
+                submitBtn.innerHTML = "Sign up for updates";
             }
         });
     }
@@ -143,72 +113,6 @@ window.addEventListener("load", () => {
         scrollToFormAndFocus();
     });
 
-    function updatePlaceholders() {
-        const lang = getCurrentLanguage();
-        document.querySelectorAll("input[data-en][data-ua]").forEach((input) => {
-            input.placeholder = input.dataset[lang];
-        });
-
-        if (submitBtn && form && form.classList.contains("submitted")) {
-            const successMessage = getTranslation("success_message");
-            submitBtn.innerHTML = `${successMessage} <img src="src/assets/img/success.svg" alt="Success" class="form-block-success">`;
-        }
-    }
-
-    function detectBrowserLanguage() {
-        const browserLang = navigator.language || navigator.userLanguage;
-        const isUkrainian = browserLang.toLowerCase().startsWith("uk");
-        return isUkrainian ? "ua" : "en";
-    }
-
-    function initializeLanguage() {
-        const savedLang = localStorage.getItem("lang");
-
-        let currentLang;
-
-        if (savedLang) {
-            currentLang = savedLang;
-        } else {
-            currentLang = detectBrowserLanguage();
-            localStorage.setItem("lang", currentLang);
-        }
-
-        body.classList.add(`lang-${currentLang}`);
-
-        langOptions.forEach((opt) => {
-            opt.classList.toggle("curr", opt.dataset.lang === currentLang);
-        });
-
-        return currentLang;
-    }
-
-    const currentLang = initializeLanguage();
-    updatePlaceholders();
-
     body.classList.add("loaded");
     hidePreloader(600);
-
-    langOptions.forEach((option) => {
-        option.addEventListener("click", () => {
-            const selectedLang = option.dataset.lang;
-            if (option.classList.contains("curr")) return;
-
-            showPreloader();
-
-            body.classList.remove("lang-en", "lang-ua");
-            body.classList.add(`lang-${selectedLang}`);
-
-            localStorage.setItem("lang", selectedLang);
-
-            langOptions.forEach((opt) => {
-                opt.classList.toggle("curr", opt.dataset.lang === selectedLang);
-            });
-
-            updatePlaceholders();
-
-            setTimeout(() => {
-                hidePreloader();
-            }, 300);
-        });
-    });
 });

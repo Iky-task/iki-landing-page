@@ -7,9 +7,28 @@
     color: #bbb;
     font-family: $serif-sfProDisplay-regular-font;
 
+    &-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 8px 24px;
+        padding-top: 24px;
+
+        a {
+            color: #999;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: #504023;
+            }
+        }
+    }
+
     &-copy {
         padding: {
-            top: 24px;
+            top: 12px;
             bottom: 16px;
         }
         font: {

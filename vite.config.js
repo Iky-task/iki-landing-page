@@ -20,6 +20,10 @@ export default defineConfig({
             input: {
                 main: path.resolve(__dirname, 'index.html'),
                 'auth-callback': path.resolve(__dirname, 'auth-callback.html'),
+                'privacy-policy': path.resolve(__dirname, 'privacy-policy.html'),
+                'terms-and-conditions': path.resolve(__dirname, 'terms-and-conditions.html'),
+                'eula': path.resolve(__dirname, 'eula.html'),
+                'account-deletion': path.resolve(__dirname, 'account-deletion.html'),
             },
             output: {
                 entryFileNames: 'main.js',
