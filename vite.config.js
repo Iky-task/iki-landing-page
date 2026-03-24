@@ -24,6 +24,7 @@ export default defineConfig({
                 'terms-and-conditions': path.resolve(__dirname, 'terms-and-conditions.html'),
                 'eula': path.resolve(__dirname, 'eula.html'),
                 'account-deletion': path.resolve(__dirname, 'account-deletion.html'),
+                'support': path.resolve(__dirname, 'support.html'),
             },
             output: {
                 entryFileNames: 'main.js',
