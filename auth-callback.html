@@ -398,15 +398,18 @@
             function generateQR(canvasId, url) {
                 var canvas = document.getElementById(canvasId);
                 if (!canvas) return;
+                var size = 400;
                 var img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.onload = function() {
-                    canvas.width = 140;
-                    canvas.height = 140;
+                    canvas.width = size;
+                    canvas.height = size;
+                    canvas.style.width = '200px';
+                    canvas.style.height = '200px';
                     var ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, 140, 140);
+                    ctx.drawImage(img, 0, 0, size, size);
                 };
-                img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=' + encodeURIComponent(url);
+                img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=' + size + 'x' + size + '&ecc=L&data=' + encodeURIComponent(url);
             }
 
             // Detect desktop
