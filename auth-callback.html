@@ -7,321 +7,470 @@
         <title>Iky Task - Email Verification</title>
         <meta name="description" content="Email verification for Iky Task" />
         <link rel="icon" type="image/png" href="src/assets/img/favicon.png" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Iky Task - Email Verification" />
-        <meta property="og:url" content="https://www.ikytask.app/auth-callback" />
         <style>
+            @font-face {
+                font-family: 'SFProDisplay';
+                src: local('SF Pro Display'), local('SFProDisplay-Regular');
+                font-weight: 400;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'SFProDisplay';
+                src: local('SF Pro Display Bold'), local('SFProDisplay-Bold');
+                font-weight: 700;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Oswald Bold';
+                src: url('src/assets/fonts/Oswald-Bold.woff2') format('woff2'),
+                     url('src/assets/fonts/Oswald-Bold.woff') format('woff');
+                font-weight: 700;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'Balsamiq Regular';
+                src: url('src/assets/fonts/balsamiqsans-regular.woff2') format('woff2'),
+                     url('src/assets/fonts/balsamiqsans-regular.woff') format('woff');
+                font-weight: 400;
+                font-style: normal;
+            }
             * {
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
             }
-
             body {
-                font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro', 'Segoe UI', Roboto, sans-serif;
+                font-family: 'SFProDisplay', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                color: #504023;
+                background: #fff;
                 min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* Header */
+            .header {
+                position: sticky;
+                top: 0;
+                z-index: 5;
+                background-color: #fff;
+                padding: 16px 0;
+            }
+            .header .container {
+                max-width: 1320px;
+                margin: 0 auto;
+                padding: 0 48px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .header__logo-link {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+                color: #504023;
+                font-family: 'Balsamiq Regular', sans-serif;
+                font-size: 36px;
+                text-transform: lowercase;
+            }
+            .header__logo-link img {
+                height: 48px;
+            }
+            .header__button {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 20px;
+                gap: 5px;
+                background-color: #F3F0EB;
+                border-radius: 12px;
+                border: none;
+                color: #504023;
+                cursor: pointer;
+                text-decoration: none;
+                font-family: 'SFProDisplay', sans-serif;
+                font-weight: 700;
+                line-height: 1;
+                transition: opacity 0.2s;
+                font-size: 18px;
+                padding: 10px 0;
+                width: 164px;
+            }
+            .header__button:hover {
+                opacity: 0.8;
+            }
+            .header__button svg {
+                width: 24px;
+                height: 24px;
             }
 
-            body.success-state {
-                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
+            /* Main content */
+            .main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 24px;
             }
-
-            body.error-state {
-                background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
+            .card {
+                width: 100%;
+                max-width: 900px;
+                border-radius: 24px;
+                overflow: hidden;
+                position: relative;
+                min-height: 420px;
+                display: flex;
+                align-items: flex-end;
+                background-size: cover;
+                background-position: center;
             }
-
-            body.loading-state {
+            .card--email {
+                background-color: #7096FF;
+                background-image: url('src/assets/img/block-underlay.svg');
+            }
+            .card--password {
+                background-color: #8a8a8a;
+                background-image: url('src/assets/img/block-underlay.svg');
+            }
+            .card--error {
+                background-color: #FF6B6B;
+                background-image: url('src/assets/img/block-underlay.svg');
+            }
+            .card--loading {
                 background: linear-gradient(135deg, #E8E8E8 0%, #F5F5F5 100%);
             }
-
-            .container {
-                background: white !important;
-                border-radius: 24px !important;
-                padding: 48px 40px 32px 40px !important;
-                text-align: center !important;
-                max-width: 420px !important;
-                width: 100% !important;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
-                margin: 0 auto !important;
-                overflow: visible !important;
-                position: relative !important;
-                box-sizing: border-box !important;
+            .card__content {
+                position: relative;
+                z-index: 2;
+                padding: 48px 40px;
+                max-width: 55%;
+            }
+            .card__title {
+                font-family: 'Oswald Bold', 'SFProDisplay', sans-serif;
+                font-size: 48px;
+                font-weight: 400;
+                color: #fff;
+                line-height: 1;
+                margin-bottom: 20px;
+                text-transform: uppercase;
+            }
+            .card__text {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.85);
+                line-height: 1.6;
+                margin-bottom: 24px;
+            }
+            .card__btn {
+                display: none;
+                background: #fff;
+                color: #504023;
+                padding: 14px 32px;
+                border-radius: 12px;
+                text-decoration: none;
+                font-weight: 700;
+                font-size: 15px;
+                transition: transform 0.2s, box-shadow 0.2s;
+                border: none;
+                cursor: pointer;
+            }
+            .card__btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            }
+            .card__illustration {
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                height: 100%;
+                max-width: 55%;
+                object-fit: contain;
+                object-position: right bottom;
+                z-index: 1;
+            }
+            .card__illustration--mobile {
+                display: none;
             }
 
-            .icon {
-                width: 80px !important;
-                height: 80px !important;
-                margin: 0 auto 24px auto !important;
-                border-radius: 50% !important;
-                display: flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                font-size: 40px !important;
-                position: relative !important;
+            /* QR code section for desktop */
+            .qr-section {
+                display: none;
+                text-align: center;
+                margin-top: 16px;
+                padding: 20px;
+                background: #faf8f5;
+                border-radius: 16px;
+                max-width: 900px;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .qr-section p {
+                font-size: 13px;
+                color: #999;
+                margin-bottom: 12px;
+            }
+            .qr-section canvas {
+                border-radius: 8px;
             }
 
-            .icon.success {
-                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%);
-            }
-
-            .icon.error {
-                background: linear-gradient(135deg, #FF6B6B 0%, #FF8E8E 100%);
-            }
-
-            .icon.loading {
-                background: #F0F0F0;
-            }
-
+            /* Loading state */
             .spinner {
-                width: 32px;
-                height: 32px;
-                border: 3px solid #E0E0E0;
-                border-top-color: #7096FF;
+                width: 40px;
+                height: 40px;
+                border: 4px solid rgba(255, 255, 255, 0.3);
+                border-top-color: #fff;
                 border-radius: 50%;
                 animation: spin 1s linear infinite;
+                margin: 0 auto 24px auto;
             }
-
             @keyframes spin {
                 to { transform: rotate(360deg); }
             }
 
-            h1 {
-                color: #2C2C2C;
-                margin-bottom: 12px;
-                font-size: 24px;
-                font-weight: 700;
-                line-height: 1.3;
+            /* Footer */
+            .footer {
+                padding: 24px;
+                text-align: center;
             }
-
-            p {
-                color: #666 !important;
-                margin-bottom: 24px !important;
-                line-height: 1.6 !important;
-                font-size: 16px !important;
-            }
-
-            .error-state p {
-                color: #CC4444;
-            }
-
-            .btn {
-                display: inline-block !important;
-                background: linear-gradient(135deg, #7096FF 0%, #B899FF 100%) !important;
-                color: white !important;
-                padding: 16px 48px !important;
-                border-radius: 12px !important;
-                text-decoration: none !important;
-                font-weight: 600 !important;
-                font-size: 16px !important;
-                transition: transform 0.2s, box-shadow 0.2s;
-                border: none !important;
-                cursor: pointer;
-                box-shadow: 0 4px 15px rgba(112, 150, 255, 0.4);
-                position: relative !important;
-                margin: 0 auto;
-            }
-
-            .btn:hover {
-                transform: translateY(-2px);
-                box-shadow: 0 6px 20px rgba(112, 150, 255, 0.5);
-            }
-
-            .btn:active {
-                transform: translateY(0);
-            }
-
-            .btn-secondary {
-                background: #F5F5F5;
-                color: #666;
-                box-shadow: none;
-                margin-top: 12px;
-            }
-
-            .btn-secondary:hover {
-                background: #EBEBEB;
-                box-shadow: none;
+            .footer-copy {
+                font-size: 13px;
+                opacity: 0.4;
             }
 
             .hidden {
                 display: none !important;
             }
 
-            .logo {
-                width: 60px;
-                height: 60px;
-                margin: 0 auto 16px auto;
-                display: block;
-                position: relative;
+            /* Mobile */
+            @media (max-width: 768px) {
+                .header .container {
+                    padding: 0 16px;
+                }
+                .header__logo-link {
+                    font-size: 22px;
+                    gap: 8px;
+                }
+                .header__logo-link img {
+                    height: 32px;
+                }
+                .header__button {
+                    font-size: 13px;
+                    padding: 6px 14px;
+                    width: auto;
+                }
+                .header__button svg {
+                    width: 18px;
+                    height: 18px;
+                }
+                .main {
+                    padding: 16px;
+                }
+                .card {
+                    flex-direction: column;
+                    align-items: stretch;
+                    min-height: auto;
+                }
+                .card__content {
+                    max-width: 100%;
+                    padding: 32px 24px;
+                    order: 1;
+                }
+                .card__title {
+                    font-size: 28px;
+                }
+                .card__btn {
+                    display: inline-block;
+                }
+                .card__illustration--desktop {
+                    display: none;
+                }
+                .card__illustration--mobile {
+                    display: block;
+                    position: relative;
+                    width: 60%;
+                    max-width: none;
+                    height: auto;
+                    margin: 24px auto 0 auto;
+                    order: 0;
+                }
+                .qr-section {
+                    display: none !important;
+                }
             }
 
-            .app-store-badges {
-                display: flex;
-                gap: 12px;
-                justify-content: center;
-                margin-top: 24px;
-            }
-
-            .app-store-badges img {
-                height: 40px;
-                opacity: 0.6;
-            }
-
-            .note {
-                font-size: 14px;
-                color: #999;
-                margin-top: 24px;
+            /* Desktop - show QR, hide button */
+            @media (min-width: 769px) {
+                .qr-section.show-qr {
+                    display: block;
+                }
             }
         </style>
     </head>
-    <body class="loading-state">
-        <!-- Loading State -->
-        <div id="loading" class="container">
-            <div class="icon loading">
-                <div class="spinner"></div>
+    <body>
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <a href="/" class="header__logo-link">
+                    <img src="src/assets/img/logo.svg" alt="Iky Task logo" />
+                    <span>iky task</span>
+                </a>
+                <a href="/" class="header__button">
+                    <svg class="header__button-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                                d="M11.29 15.71C11.3851 15.801 11.4972 15.8724 11.62 15.92C11.8635 16.02 12.1365 16.02 12.38 15.92C12.5028 15.8724 12.6149 15.801 12.71 15.71L15.71 12.71C15.8983 12.5217 16.0041 12.2663 16.0041 12C16.0041 11.7337 15.8983 11.4783 15.71 11.29C15.5217 11.1017 15.2663 10.9959 15 10.9959C14.7337 10.9959 14.4783 11.1017 14.29 11.29L13 12.59V9C13 8.73479 12.8946 8.48043 12.7071 8.2929C12.5196 8.10536 12.2652 8 12 8C11.7348 8 11.4804 8.10536 11.2929 8.2929C11.1054 8.48043 11 8.73479 11 9V12.59L9.71 11.29C9.61704 11.1963 9.50644 11.1219 9.38458 11.0711C9.26272 11.0203 9.13201 10.9942 9 10.9942C8.86799 10.9942 8.73728 11.0203 8.61542 11.0711C8.49356 11.1219 8.38296 11.1963 8.29 11.29C8.19627 11.383 8.12188 11.4936 8.07111 11.6154C8.02034 11.7373 7.9942 11.868 7.9942 12C7.9942 12.132 8.02034 12.2627 8.07111 12.3846C8.12188 12.5064 8.19627 12.617 8.29 12.71L11.29 15.71ZM12 22C13.9778 22 15.9112 21.4135 17.5557 20.3147C19.2002 19.2159 20.4819 17.6541 21.2388 15.8268C21.9957 13.9996 22.1937 11.9889 21.8079 10.0491C21.422 8.10929 20.4696 6.32746 19.0711 4.92894C17.6725 3.53041 15.8907 2.578 13.9509 2.19215C12.0111 1.8063 10.0004 2.00433 8.17317 2.76121C6.3459 3.51809 4.78412 4.79981 3.6853 6.4443C2.58649 8.08879 2 10.0222 2 12C2 14.6522 3.05357 17.1957 4.92893 19.0711C5.85752 19.9997 6.95991 20.7363 8.17317 21.2388C9.38642 21.7413 10.6868 22 12 22ZM12 4C13.5823 4 15.129 4.4692 16.4446 5.34825C17.7602 6.2273 18.7855 7.47673 19.391 8.93854C19.9965 10.4003 20.155 12.0089 19.8463 13.5607C19.5376 15.1126 18.7757 16.538 17.6569 17.6569C16.538 18.7757 15.1126 19.5376 13.5607 19.8463C12.0089 20.155 10.4003 19.9965 8.93853 19.391C7.47672 18.7855 6.22729 17.7602 5.34824 16.4446C4.46919 15.129 4 13.5823 4 12C4 9.87827 4.84285 7.84344 6.34315 6.34315C7.84344 4.84286 9.87827 4 12 4Z"
+                                fill="#504023"
+                        />
+                    </svg>
+                    <span>Join waitlist</span>
+                </a>
             </div>
-            <h1>
-                <span class="en">Verifying...</span>
-                <span class="ua">Перевірка...</span>
-            </h1>
-            <p>
-                <span class="en">Please wait while we confirm your email.</span>
-                <span class="ua">Зачекайте, підтверджуємо ваш email.</span>
-            </p>
-        </div>
+        </header>
 
-        <!-- Success State -->
-        <div id="success" class="container hidden">
-            <img class="logo" src="src/assets/img/logo.svg" alt="Iky Task" />
-            <div class="icon success">
-                <span style="filter: grayscale(1) brightness(10);">&#10003;</span>
+        <!-- Loading State -->
+        <main id="loading" class="main">
+            <div class="card card--loading" style="align-items: center; justify-content: center;">
+                <div class="card__content" style="max-width: 100%; text-align: center;">
+                    <div class="spinner"></div>
+                    <h1 class="card__title" style="color: #999; font-size: 28px;">Verifying...</h1>
+                    <p class="card__text" style="color: #999;">Please wait while we confirm your request.</p>
+                </div>
             </div>
-            <h1>
-                <span class="en">Email Confirmed!</span>
-                <span class="ua">Email підтверджено!</span>
-            </h1>
-            <p>
-                <span class="en">Your account is now active. Open the app to start managing your tasks.</span>
-                <span class="ua">Ваш акаунт активовано. Відкрийте додаток, щоб почати керувати своїми завданнями.</span>
-            </p>
-            <a id="openAppBtn" href="#" class="btn">
-                <span class="en">Open Iky App</span>
-                <span class="ua">Відкрити Iky</span>
-            </a>
-        </div>
+        </main>
+
+        <!-- Email Confirmed State -->
+        <main id="success-email" class="main hidden">
+            <div style="max-width: 900px; width: 100%; margin: 0 auto;">
+                <div class="card card--email">
+                    <div class="card__content">
+                        <h1 class="card__title">Your Email Confirmed!</h1>
+                        <p class="card__text">You nailed it — your email is all set! That means your account is live and ready to go. Jump into the app and see what's waiting for you. Something exciting is just around the corner!</p>
+                        <a id="openAppBtnEmail" href="#" class="card__btn">Open Iky App</a>
+                    </div>
+                    <img class="card__illustration card__illustration--desktop" src="src/assets/img/dog-email.svg" alt="Buddy with envelope" />
+                    <img class="card__illustration card__illustration--mobile" src="src/assets/img/dog-email.svg" alt="Buddy with envelope" />
+                </div>
+                <div id="qr-email" class="qr-section">
+                    <p>Scan to open the app on your phone</p>
+                    <canvas id="qr-canvas-email"></canvas>
+                </div>
+            </div>
+        </main>
+
+        <!-- Password Changed State -->
+        <main id="success-password" class="main hidden">
+            <div style="max-width: 900px; width: 100%; margin: 0 auto;">
+                <div class="card card--password">
+                    <div class="card__content">
+                        <h1 class="card__title">Your Password Changed!</h1>
+                        <p class="card__text">Mission complete — your new password is set and secure! You're all set to log in and carry on. Just don't forget it... even secret agents write things down sometimes.</p>
+                        <a id="openAppBtnPassword" href="#" class="card__btn">Open Iky App</a>
+                    </div>
+                    <img class="card__illustration card__illustration--desktop" src="src/assets/img/dog-password-desktop.svg" alt="Buddy secret agent" />
+                    <img class="card__illustration card__illustration--mobile" src="src/assets/img/dog-password-mobile.svg" alt="Buddy secret agent" />
+                </div>
+                <div id="qr-password" class="qr-section">
+                    <p>Scan to open the app on your phone</p>
+                    <canvas id="qr-canvas-password"></canvas>
+                </div>
+            </div>
+        </main>
 
         <!-- Error State -->
-        <div id="error" class="container hidden">
-            <div class="icon error">
-                <span style="filter: grayscale(1) brightness(10);">&#10005;</span>
+        <main id="error" class="main hidden">
+            <div class="card card--error" style="align-items: center; justify-content: center;">
+                <div class="card__content" style="max-width: 100%; text-align: center;">
+                    <h1 class="card__title" style="font-size: 28px;">Verification Failed</h1>
+                    <p id="errorMessage" class="card__text">The link is invalid or has expired.</p>
+                    <a href="/" class="card__btn">Go to Homepage</a>
+                </div>
             </div>
-            <h1>
-                <span class="en">Verification Failed</span>
-                <span class="ua">Помилка підтвердження</span>
-            </h1>
-            <p id="errorMessage">
-                <span class="en">The link is invalid or has expired.</span>
-                <span class="ua">Посилання недійсне або застаріле.</span>
-            </p>
-            <a href="/" class="btn">
-                <span class="en">Go to Homepage</span>
-                <span class="ua">На головну</span>
-            </a>
-        </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-copy">Copyright <span id="year"></span> &copy; ikytask</p>
+        </footer>
+
+        <!-- QR Code library (lightweight, no dependencies) -->
+        <script>
+            // Minimal QR code generator for canvas
+            // Using inline QR generation via API
+            function generateQR(canvasId, url) {
+                var canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                var img = new Image();
+                img.crossOrigin = 'anonymous';
+                img.onload = function() {
+                    canvas.width = 140;
+                    canvas.height = 140;
+                    var ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, 140, 140);
+                };
+                img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=' + encodeURIComponent(url);
+            }
+
+            // Detect desktop
+            function isDesktop() {
+                return window.innerWidth >= 769;
+            }
+        </script>
 
         <script>
-            // Language detection
-            const userLang = navigator.language || navigator.userLanguage;
-            const isUkrainian = userLang.startsWith('uk') || userLang.startsWith('ru');
-
-            document.querySelectorAll('.en').forEach(el => {
-                el.style.display = isUkrainian ? 'none' : 'inline';
-            });
-            document.querySelectorAll('.ua').forEach(el => {
-                el.style.display = isUkrainian ? 'inline' : 'none';
-            });
+            document.getElementById('year').textContent = new Date().getFullYear();
 
             // Parse hash parameters
-            const hash = window.location.hash.substring(1);
-            const params = new URLSearchParams(hash);
+            var hash = window.location.hash.substring(1);
+            var params = new URLSearchParams(hash);
 
-            const accessToken = params.get('access_token');
-            const refreshToken = params.get('refresh_token');
-            const error = params.get('error');
-            const errorCode = params.get('error_code');
-            const errorDescription = params.get('error_description');
+            var accessToken = params.get('access_token');
+            var refreshToken = params.get('refresh_token');
+            var error = params.get('error');
+            var errorDescription = params.get('error_description');
+            var type = params.get('type');
 
-            const successEl = document.getElementById('success');
-            const errorEl = document.getElementById('error');
-            const loadingEl = document.getElementById('loading');
-            const openAppBtn = document.getElementById('openAppBtn');
-            const errorMessage = document.getElementById('errorMessage');
-            const body = document.body;
+            var loadingEl = document.getElementById('loading');
+            var successEmailEl = document.getElementById('success-email');
+            var successPasswordEl = document.getElementById('success-password');
+            var errorEl = document.getElementById('error');
+            var errorMessage = document.getElementById('errorMessage');
 
-            // Small delay to show loading state
-            setTimeout(() => {
+            setTimeout(function() {
                 if (error) {
                     // Show error
                     loadingEl.classList.add('hidden');
                     errorEl.classList.remove('hidden');
-                    body.classList.remove('loading-state');
-                    body.classList.add('error-state');
-
-                    // Set error message
-                    const decodedError = decodeURIComponent(errorDescription || '');
-                    if (decodedError) {
-                        const enMsg = errorMessage.querySelector('.en');
-                        const uaMsg = errorMessage.querySelector('.ua');
-
-                        // Map common errors to Ukrainian
-                        const errorMap = {
-                            'Email link is invalid or has expired': 'Посилання недійсне або застаріле',
-                            'otp_expired': 'Термін дії посилання закінчився',
-                            'access_denied': 'Доступ заборонено'
-                        };
-
-                        if (enMsg) enMsg.textContent = decodedError;
-                        if (uaMsg) uaMsg.textContent = errorMap[decodedError] || errorMap[errorCode] || 'Посилання недійсне або застаріле';
+                    if (errorDescription) {
+                        errorMessage.textContent = decodeURIComponent(errorDescription);
                     }
                 } else if (accessToken) {
-                    // Success - show confirmation and deep link button
-                    loadingEl.classList.add('hidden');
-                    successEl.classList.remove('hidden');
-                    body.classList.remove('loading-state');
-                    body.classList.add('success-state');
-
-                    // Build deep link URL with tokens
-                    const deepLinkParams = new URLSearchParams();
+                    // Build deep link
+                    var deepLinkParams = new URLSearchParams();
                     deepLinkParams.set('access_token', accessToken);
-                    if (refreshToken) {
-                        deepLinkParams.set('refresh_token', refreshToken);
-                    }
-                    const type = params.get('type');
-                    if (type) {
-                        deepLinkParams.set('type', type);
-                    }
+                    if (refreshToken) deepLinkParams.set('refresh_token', refreshToken);
+                    if (type) deepLinkParams.set('type', type);
+                    var deepLink = 'iky://auth/callback?' + deepLinkParams.toString();
 
-                    const deepLink = `iky://auth/callback?${deepLinkParams.toString()}`;
-                    openAppBtn.href = deepLink;
+                    loadingEl.classList.add('hidden');
 
-                    // Update text for password recovery flow
                     if (type === 'recovery') {
-                        const successTitle = successEl.querySelector('h1');
-                        const successDesc = successEl.querySelector('p');
-                        if (successTitle) {
-                            successTitle.querySelector('.en').textContent = 'Reset Your Password';
-                            successTitle.querySelector('.ua').textContent = 'Скидання пароля';
+                        // Password reset flow
+                        successPasswordEl.classList.remove('hidden');
+                        document.getElementById('openAppBtnPassword').href = deepLink;
+
+                        if (isDesktop()) {
+                            document.getElementById('qr-password').classList.add('show-qr');
+                            generateQR('qr-canvas-password', deepLink);
                         }
-                        if (successDesc) {
-                            successDesc.querySelector('.en').textContent = 'Tap the button below to open the app and set a new password.';
-                            successDesc.querySelector('.ua').textContent = 'Натисніть кнопку нижче, щоб відкрити додаток і встановити новий пароль.';
+                    } else {
+                        // Email confirmation flow
+                        successEmailEl.classList.remove('hidden');
+                        document.getElementById('openAppBtnEmail').href = deepLink;
+
+                        if (isDesktop()) {
+                            document.getElementById('qr-email').classList.add('show-qr');
+                            generateQR('qr-canvas-email', deepLink);
                         }
                     }
-
-                    // No auto-redirect - user clicks the button manually
                 } else {
                     // No token, no error - redirect to home
                     window.location.href = '/';
