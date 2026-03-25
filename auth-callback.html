@@ -114,11 +114,11 @@
             }
             .card {
                 width: 100%;
-                max-width: 900px;
+                max-width: 1100px;
                 border-radius: 24px;
                 overflow: hidden;
                 position: relative;
-                min-height: 420px;
+                min-height: 620px;
                 display: flex;
                 align-items: flex-end;
                 background-size: cover;
@@ -142,7 +142,7 @@
             .card__content {
                 position: relative;
                 z-index: 2;
-                padding: 48px 40px;
+                padding: 56px 48px;
                 max-width: 55%;
             }
             .card__title {
@@ -191,29 +191,53 @@
                 display: none;
             }
 
-            /* QR code section for desktop */
-            .qr-section {
+            /* QR code inside card for desktop */
+            .card__qr {
                 display: none;
-                text-align: center;
-                margin-top: 16px;
-                padding: 20px;
-                background: #faf8f5;
-                border-radius: 16px;
-                max-width: 900px;
-                width: 100%;
-                margin-left: auto;
-                margin-right: auto;
+                margin-top: 20px;
             }
-            .qr-section p {
-                font-size: 13px;
-                color: #999;
-                margin-bottom: 12px;
+            .card__qr.show-qr {
+                display: block;
             }
-            .qr-section canvas {
-                border-radius: 8px;
+            .card__qr-label {
+                font-size: 12px;
+                font-weight: 700;
+                color: rgba(255, 255, 255, 0.7);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 10px !important;
+            }
+            .card__qr canvas {
+                border-radius: 12px;
+                background: #fff;
+                padding: 10px;
             }
 
             /* Loading state */
+            .card__loading-center {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+            }
+            .card__loading-title {
+                font-family: 'Oswald Bold', 'SFProDisplay', sans-serif;
+                font-size: 28px;
+                font-weight: 400;
+                color: #999;
+                text-transform: uppercase;
+            }
+            .card__loading-text {
+                font-size: 14px;
+                color: #999;
+                margin-top: 8px;
+            }
             .spinner {
                 width: 40px;
                 height: 40px;
@@ -263,12 +287,18 @@
                     height: 18px;
                 }
                 .main {
-                    padding: 16px;
+                    padding: 8px 16px;
+                    align-items: flex-start;
                 }
                 .card {
                     flex-direction: column;
                     align-items: stretch;
-                    min-height: auto;
+                    min-height: 75vh;
+                }
+                .card--loading {
+                    min-height: 400px;
+                    align-items: center !important;
+                    justify-content: center !important;
                 }
                 .card__content {
                     max-width: 100%;
@@ -293,17 +323,12 @@
                     margin: 24px auto 0 auto;
                     order: 0;
                 }
-                .qr-section {
+                .card__qr {
                     display: none !important;
                 }
             }
 
-            /* Desktop - show QR, hide button */
-            @media (min-width: 769px) {
-                .qr-section.show-qr {
-                    display: block;
-                }
-            }
+            /* Desktop - hide button (QR shown via .show-qr class) */
         </style>
     </head>
     <body>
@@ -328,49 +353,51 @@
 
         <!-- Loading State -->
         <main id="loading" class="main">
-            <div class="card card--loading" style="align-items: center; justify-content: center;">
-                <div class="card__content" style="max-width: 100%; text-align: center;">
-                    <div class="spinner"></div>
-                    <h1 class="card__title" style="color: #999; font-size: 28px;">Verifying...</h1>
-                    <p class="card__text" style="color: #999;">Please wait while we confirm your request.</p>
+            <div style="max-width: 1100px; width: 100%; margin: 0 auto;">
+                <div class="card card--loading">
+                    <div class="card__loading-center">
+                        <div class="spinner"></div>
+                        <h1 class="card__loading-title">Verifying...</h1>
+                        <p class="card__loading-text">Please wait while we confirm your request.</p>
+                    </div>
                 </div>
             </div>
         </main>
 
         <!-- Email Confirmed State -->
         <main id="success-email" class="main hidden">
-            <div style="max-width: 900px; width: 100%; margin: 0 auto;">
+            <div style="max-width: 1100px; width: 100%; margin: 0 auto;">
                 <div class="card card--email">
                     <div class="card__content">
                         <h1 class="card__title">Your Email Confirmed!</h1>
                         <p class="card__text">You nailed it — your email is all set! That means your account is live and ready to go. Jump into the app and see what's waiting for you. Something exciting is just around the corner!</p>
                         <a id="openAppBtnEmail" href="#" class="card__btn">Open Iky App</a>
+                        <div id="qr-email" class="card__qr">
+                            <p class="card__qr-label">Scan to enter the app</p>
+                            <canvas id="qr-canvas-email"></canvas>
+                        </div>
                     </div>
                     <img class="card__illustration card__illustration--desktop" src="src/assets/img/dog-email.svg" alt="Buddy with envelope" />
                     <img class="card__illustration card__illustration--mobile" src="src/assets/img/dog-email.svg" alt="Buddy with envelope" />
-                </div>
-                <div id="qr-email" class="qr-section">
-                    <p>Scan to open the app on your phone</p>
-                    <canvas id="qr-canvas-email"></canvas>
                 </div>
             </div>
         </main>
 
         <!-- Password Changed State -->
         <main id="success-password" class="main hidden">
-            <div style="max-width: 900px; width: 100%; margin: 0 auto;">
+            <div style="max-width: 1100px; width: 100%; margin: 0 auto;">
                 <div class="card card--password">
                     <div class="card__content">
                         <h1 class="card__title">Your Password Changed!</h1>
                         <p class="card__text">Mission complete — your new password is set and secure! You're all set to log in and carry on. Just don't forget it... even secret agents write things down sometimes.</p>
                         <a id="openAppBtnPassword" href="#" class="card__btn">Open Iky App</a>
+                        <div id="qr-password" class="card__qr">
+                            <p class="card__qr-label">Scan to enter the app</p>
+                            <canvas id="qr-canvas-password"></canvas>
+                        </div>
                     </div>
                     <img class="card__illustration card__illustration--desktop" src="src/assets/img/dog-password-desktop.svg" alt="Buddy secret agent" />
                     <img class="card__illustration card__illustration--mobile" src="src/assets/img/dog-password-mobile.svg" alt="Buddy secret agent" />
-                </div>
-                <div id="qr-password" class="qr-section">
-                    <p>Scan to open the app on your phone</p>
-                    <canvas id="qr-canvas-password"></canvas>
                 </div>
             </div>
         </main>
@@ -398,14 +425,14 @@
             function generateQR(canvasId, url) {
                 var canvas = document.getElementById(canvasId);
                 if (!canvas) return;
-                var size = 400;
+                var size = 600;
                 var img = new Image();
                 img.crossOrigin = 'anonymous';
                 img.onload = function() {
                     canvas.width = size;
                     canvas.height = size;
-                    canvas.style.width = '200px';
-                    canvas.style.height = '200px';
+                    canvas.style.width = '240px';
+                    canvas.style.height = '240px';
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, size, size);
                 };
