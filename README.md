@@ -1,3 +1,4 @@
+# iki Landing Page
 
 ## Get started
 
@@ -11,9 +12,10 @@
 
    ```bash
    npm run dev
+   ```
 
-2. Build app
+3. Build the app
 
    ```bash
    npm run build
-
+   ```
